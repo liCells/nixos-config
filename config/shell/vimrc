@@ -1,0 +1,22 @@
+set number
+set relativenumber
+
+syntax on
+
+set tabstop=4
+
+set shiftwidth=4
+set expandtab
+
+set showmatch
+
+set hlsearch
+
+set nobackup
+set noswapfile
+
+set ignorecase
+
+set enc=utf-8
+
+set encoding=utf-8
