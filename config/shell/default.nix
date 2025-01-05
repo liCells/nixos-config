@@ -1,11 +1,19 @@
 { pkgs, ... }: {
   home.file.".vimrc".source = ./vimrc;
   # home.file.".config/alacritty/alacritty.toml".source = ./alacritty.toml;
+  home.file.".config/kitty/kitty.conf".source = ./kitty.conf;
+
+  home.file.".config/nvim" = {
+    source = ./nvim;
+    recursive = true;
+    executable = true;
+  };
 
   home.packages = with pkgs; [
     # alacritty
 
     vim
+    neovim
     curl
     git
     wget
@@ -24,6 +32,11 @@
 
     which
     tree
+
+    gamescope
+    nix-alien
+
+    nix-output-monitor
   ];
 
   programs.git = {
@@ -41,11 +54,15 @@
       l = "exa -la";
       ll = "exa -l";
       ipc = "curl cip.cc";
+
+      nix-remove-all = "nix profile list --json | jq -r '.elements | keys[]' | while read -r profile_name; do nix profile remove \"\$profile_name\"; done";
+      switch-jdk-8 = "nix profile install nixpkgs#jdk8";
+      switch-jdk-23 = "nix profile install nixpkgs#zulu23";
     };
   };
 
   home.sessionVariables = {
-    EDITOR = "vim";
+    EDITOR = "nvim";
     BROWSER = "chrome";
     TERMINAL = "kitty";
   };

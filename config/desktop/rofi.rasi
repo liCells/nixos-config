@@ -1,0 +1,15 @@
+configuration {
+  modes: "window,drun";
+  font: "mono 12";
+  show-icons: true;
+  dpi: 200;
+  timeout {
+      action: "kb-cancel";
+      delay:  0;
+  }
+  filebrowser {
+      directories-first: true;
+      sorting-method:    "name";
+  }
+}
+/* @theme "rounded-purple-dark" */

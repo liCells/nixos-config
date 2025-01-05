@@ -30,7 +30,7 @@
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
-  environment.variables.EDITOR = "vim";
+  environment.variables.EDITOR = "nvim";
 
   # Select internationalisation properties.
   i18n.defaultLocale = "en_US.UTF-8";

@@ -4,25 +4,34 @@
   home.packages = with pkgs; [
     kitty
     wayland
-    #waybar
-    #hyprpaper
-    fuzzel
+    #fuzzel
+    rofi
     nautilus
     swww
+    #nwg-look
+
+    brightnessctl
+    wireplumber
+    libgtop
+    bluez
+    networkmanager
+    dart-sass
+    wl-clipboard
+    upower
+    gvfs
+    cliphist
 
     hyprpanel
   ];
 
-  #imports = [
-  #  ./hyprpanel.nix
-  #];
+  home.file.".config/hypr/hyprland.conf".source = ./hyprland.conf;
 
-  home.file.".config/hypr/hyprland.conf".source = ./hypr/hyprland.conf;
-  home.file.".config/waybar" = {
-    source = ./waybar;
-    # copy the scripts directory recursively
+  home.file.".config/rofi/config.rasi".source = ./rofi.rasi;
+
+  home.file.".local/share/icons" = {
+    source = ./cursor_theme;
     recursive = true;
-    executable = true;  # make all scripts executable
+    executable = true;
   };
 
   # set cursor size and dpi for 4k monitor
