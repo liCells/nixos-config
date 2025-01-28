@@ -14,6 +14,9 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
+  hardware.bluetooth.enable = true; # enables support for Bluetooth
+  hardware.bluetooth.powerOnBoot = true; # powers up the default Bluetooth controller on boot
+
   networking.hostName = "tecemine"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
@@ -63,6 +66,29 @@
     };
     openFirewall = true;
   };
+
+  networking.firewall.allowedTCPPorts = [ 35678 33000 35230 37575 36881 38081 36800 36888 38080 39081 ];
+  networking.firewall.allowedUDPPorts = [ 36881 36888 ];
+
+  security.rtkit.enable = true;
+  services.pipewire = {
+    enable = true;
+    alsa.enable = true;
+    alsa.support32Bit = true;
+    pulse.enable = true;
+    # If you want to use JACK applications, uncomment this
+    # jack.enable = true;
+  };
+
+  #services.pipewire.wireplumber.extraConfig.bluetoothEnhancements = {
+  #  "monitor.bluez.properties" = {
+  #    "bluez5.enable-sbc-xq" = true;
+  #    "bluez5.enable-msbc" = true;
+  #    "bluez5.enable-hw-volume" = true;
+  #    "bluez5.roles" = [ "hsp_hs" "hsp_ag" "hfp_hf" "hfp_ag" ];
+  #  };
+  #};
+
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.tecemine = {
