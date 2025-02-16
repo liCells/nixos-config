@@ -55,6 +55,13 @@
       ll = "exa -l";
       ipc = "curl cip.cc";
 
+      # docker
+      dps = "docker ps --format 'table {{.ID}}\t{{.Image}}\t{{.Names}}\t{{.Status}}'";
+      dpsa = "docker ps -a --format 'table {{.ID}}\t{{.Image}}\t{{.Names}}\t{{.Status}}'";
+      dcu = "docker compose up";
+      dcud = "docker compose up -d";
+      dcd = "docker compose down";
+
       nix-remove-all = "nix profile list --json | jq -r '.elements | keys[]' | while read -r profile_name; do nix profile remove \"\$profile_name\"; done";
       switch-jdk-8 = "nix profile install nixpkgs#jdk8";
       switch-jdk-23 = "nix profile install nixpkgs#zulu23";

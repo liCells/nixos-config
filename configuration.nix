@@ -14,8 +14,8 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  hardware.bluetooth.enable = true; # enables support for Bluetooth
-  hardware.bluetooth.powerOnBoot = true; # powers up the default Bluetooth controller on boot
+  hardware.bluetooth.enable = false; # enables support for Bluetooth
+  hardware.bluetooth.powerOnBoot = false; # powers up the default Bluetooth controller on boot
 
   networking.hostName = "tecemine"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
@@ -67,7 +67,7 @@
     openFirewall = true;
   };
 
-  networking.firewall.allowedTCPPorts = [ 35678 33000 35230 37575 36881 38081 36800 36888 38080 39081 ];
+  networking.firewall.allowedTCPPorts = [ 35678 33000 35230 37575 36881 38081 36800 36888 38080 39081 38008 30010 31111 ];
   networking.firewall.allowedUDPPorts = [ 36881 36888 ];
 
   security.rtkit.enable = true;
