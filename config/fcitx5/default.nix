@@ -21,14 +21,15 @@
   };
 
   i18n.inputMethod = {
-    enabled = "fcitx5";
+    type = "fcitx5";
+    enable = true;
     fcitx5.addons = with pkgs; [
       # for flypy chinese input method
       fcitx5-rime
       librime
       # needed enable rime using configtool after installed
-      fcitx5-configtool
-      fcitx5-chinese-addons
+      qt6Packages.fcitx5-configtool
+      qt6Packages.fcitx5-chinese-addons
       fcitx5-gtk # gtk im module
     ];
   };

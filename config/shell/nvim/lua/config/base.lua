@@ -22,3 +22,6 @@ vim.opt.hlsearch = false -- do not highlight matches
 vim.opt.ignorecase = true -- ignore case in searches by default
 vim.opt.smartcase = true -- but make it case sensitive if an uppercase is entered
 
+-- <leader>g 打开 Neogit
+vim.keymap.set('n', '<leader>g', ':Neogit<CR>', { noremap = true, silent = true })
+

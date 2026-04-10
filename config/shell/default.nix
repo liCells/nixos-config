@@ -1,5 +1,5 @@
 { pkgs, ... }: {
-  home.file.".vimrc".source = ./vimrc;
+  # home.file.".vimrc".source = ./vimrc;
   # home.file.".config/alacritty/alacritty.toml".source = ./alacritty.toml;
   home.file.".config/kitty/kitty.conf".source = ./kitty.conf;
 
@@ -11,15 +11,21 @@
 
   home.packages = with pkgs; [
     # alacritty
+    traceroute
+    bind
+    busybox
+    wl-clipboard
 
-    vim
     neovim
+    ripgrep
     curl
     git
     wget
+    gnumake
 
     yazi
     btop
+    ctop
     fastfetch
 
     jq
@@ -41,15 +47,28 @@
 
   programs.git = {
     enable = true;
-    userName = "lizz";
-    userEmail = "lizong1204@gmail.com";
+
+    settings = {
+        user.name = "lizz";
+        user.email = "lizong1204@gmail.com";
+    };
+
+    signing.format = null;
   };
 
   programs.bash = {
     enable = true;
     enableCompletion = true;
 
+    initExtra = ''
+      if [ -z "$DISPLAY" ] && [ "$(tty)" = "/dev/tty1" ]; then
+        exec Hyprland
+      fi
+    '';
+
     shellAliases = {
+      vim = "nvim";
+
       ls = "exa";
       l = "exa -la";
       ll = "exa -l";
@@ -61,6 +80,7 @@
       dcu = "docker compose up";
       dcud = "docker compose up -d";
       dcd = "docker compose down";
+      docker-compose = "docker compose";
 
       nix-remove-all = "nix profile list --json | jq -r '.elements | keys[]' | while read -r profile_name; do nix profile remove \"\$profile_name\"; done";
       switch-jdk-8 = "nix profile install nixpkgs#jdk8";
@@ -72,5 +92,6 @@
     EDITOR = "nvim";
     BROWSER = "chrome";
     TERMINAL = "kitty";
+    WAYLAND_DISPLAY = "wayland-1";
   };
 }

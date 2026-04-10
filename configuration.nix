@@ -1,7 +1,3 @@
-# Edit this configuration file to define what should be installed on
-# your system.  Help is available in the configuration.nix(5) man page
-# and in the NixOS manual (accessible by running ‘nixos-help’).
-
 { config, pkgs, ... }:
 
 {
@@ -10,32 +6,25 @@
       ./hardware-configuration.nix
     ];
 
-  # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  hardware.bluetooth.enable = false; # enables support for Bluetooth
-  hardware.bluetooth.powerOnBoot = false; # powers up the default Bluetooth controller on boot
+  hardware.bluetooth.enable = false;
+  hardware.bluetooth.powerOnBoot = false;
 
-  networking.hostName = "tecemine"; # Define your hostname.
+  networking.hostName = "tecemine";
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
-
-  # Configure network proxy if necessary
-  # networking.proxy.default = "http://user:password@proxy:port/";
-  # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
-  # networking.proxy.allProxy = "socks5://127.0.0.1:7890";
 
   # Enable networking
   networking.networkmanager.enable = true;
+  networking.enableIPv6 = false;
 
-  # Set your time zone.
   time.timeZone = "Asia/Shanghai";
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
   environment.variables.EDITOR = "nvim";
 
-  # Select internationalisation properties.
   i18n.defaultLocale = "en_US.UTF-8";
 
   i18n.extraLocaleSettings = {
@@ -67,8 +56,10 @@
     openFirewall = true;
   };
 
-  networking.firewall.allowedTCPPorts = [ 35678 33000 35230 37575 36881 38081 36800 36888 38080 39081 38008 30010 31111 ];
-  networking.firewall.allowedUDPPorts = [ 36881 36888 ];
+  networking.firewall.allowedTCPPorts = [ 80 443 3389 5201 5930 6800 8484 ];
+  networking.firewall.allowedUDPPorts = [ 3389 5930 6800 8484 ];
+  networking.firewall.allowedTCPPortRanges = [ { from = 30000; to = 50000; } { from = 7575; to = 7577; } ];
+  networking.firewall.allowedUDPPortRanges = [ { from = 30000; to = 50000; } { from = 7575; to = 7577; } ];
 
   security.rtkit.enable = true;
   services.pipewire = {
@@ -80,34 +71,28 @@
     # jack.enable = true;
   };
 
-  #services.pipewire.wireplumber.extraConfig.bluetoothEnhancements = {
-  #  "monitor.bluez.properties" = {
-  #    "bluez5.enable-sbc-xq" = true;
-  #    "bluez5.enable-msbc" = true;
-  #    "bluez5.enable-hw-volume" = true;
-  #    "bluez5.roles" = [ "hsp_hs" "hsp_ag" "hfp_hf" "hfp_ag" ];
-  #  };
-  #};
-
-
-  # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.tecemine = {
     isNormalUser = true;
     description = "Tecemine";
     extraGroups = [ "networkmanager" "wheel" "docker" ];
     packages = with pkgs; [];
+    openssh.authorizedKeys.keyFiles = [
+      ./ssh/auth_key
+    ];
   };
 
-  virtualisation.docker.enable = true;
+  services.getty.autologinUser = "tecemine";
 
-  # Allow unfree packages
+  virtualisation.docker = {
+    enable = true;
+    daemon.settings = {
+      ipv6 = false;
+    };
+  };
+
+  services.tailscale.enable = true;
+
   nixpkgs.config.allowUnfree = true;
-
-  # List packages installed in system profile. To search, run:
-  # $ nix search wget
-  #environment.systemPackages = with pkgs; [
-  #  pkgs.google-chrome
-  #];
 
   programs.hyprland.enable = true;
 

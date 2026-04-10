@@ -7,7 +7,7 @@
     #fuzzel
     rofi
     nautilus
-    swww
+    awww
     #nwg-look
 
     brightnessctl
@@ -22,6 +22,8 @@
     cliphist
 
     hyprpanel
+
+    wayvnc
   ];
 
   home.file.".config/hypr/hyprland.conf".source = ./hyprland.conf;

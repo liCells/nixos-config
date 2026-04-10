@@ -19,11 +19,13 @@
     #zulu23
     #javaPackages.openjfx17
 
-    jetbrains.idea-ultimate
+    jetbrains.idea
     #jdk8
     maven
 
     prismlauncher
+
+    quickemu
   ];
 
   #home.file."Code/jdks/jdk8".source = "${pkgs.jdk8}";
