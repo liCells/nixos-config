@@ -69,9 +69,9 @@
     shellAliases = {
       vim = "nvim";
 
-      ls = "exa";
-      l = "exa -la";
-      ll = "exa -l";
+      ls = "eza";
+      l = "eza -la";
+      ll = "eza -l";
       ipc = "curl cip.cc";
 
       # docker
