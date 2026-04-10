@@ -23,7 +23,7 @@
             home-manager.useUserPackages = true;
             home-manager.backupFileExtension = "home-manager.backup";
 
-            home-manager.users.tecemine = import ./config/main.nix;
+            home-manager.users.tecemine = import ./home;
           }
         ];
       };

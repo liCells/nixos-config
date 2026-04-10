@@ -4,7 +4,7 @@
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
-      ./config/system
+      ./system
     ];
 
   boot.loader.systemd-boot.enable = true;
