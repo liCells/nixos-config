@@ -17,8 +17,6 @@
             inputs.nix-alien.overlays.default
           ];}
           ./configuration.nix
-          ./share.nix
-          ./task.nix
           home-manager.nixosModules.home-manager
           {
             home-manager.useGlobalPkgs = true;
