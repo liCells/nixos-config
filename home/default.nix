@@ -6,7 +6,6 @@
     ./font
     ./desktop
     ./shell
-    ./software
   ];
 
   home = {

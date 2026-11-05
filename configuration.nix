@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, inputs, ... }:
 
 {
   imports =
@@ -10,6 +10,8 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
+  networking.interfaces.enp0s31f6.wakeOnLan.enable = true;
+
   hardware.bluetooth.enable = false;
   hardware.bluetooth.powerOnBoot = false;
 
@@ -18,7 +20,7 @@
 
   # Enable networking
   networking.networkmanager.enable = true;
-  networking.enableIPv6 = false;
+  networking.enableIPv6 = true;
 
   time.timeZone = "Asia/Shanghai";
 
@@ -38,42 +40,45 @@
     LC_TIME = "zh_CN.UTF-8";
   };
 
-  # Configure keymap in X11
-  services.xserver.xkb = {
-    layout = "us";
-    variant = "";
-  };
-
   services.openssh = {
     enable = true;
     ports = [ 22 ];
     settings = {
       X11Forwarding = true;
-      PermitRootLogin = "no"; # disable root login
-      PasswordAuthentication = true; # disable password login
+      PermitRootLogin = "no";
+      PasswordAuthentication = true;
     };
     openFirewall = true;
   };
 
-  networking.firewall.allowedTCPPorts = [ 80 443 3389 5201 5930 6800 8484 ];
+  networking.firewall.allowedTCPPorts = [ 80 443 3389 5201 5900 5930 6800 8484 ];
   networking.firewall.allowedUDPPorts = [ 3389 5930 6800 8484 ];
   networking.firewall.allowedTCPPortRanges = [ { from = 30000; to = 50000; } { from = 7575; to = 7577; } ];
   networking.firewall.allowedUDPPortRanges = [ { from = 30000; to = 50000; } { from = 7575; to = 7577; } ];
 
+  hardware.graphics = {
+    enable = true;
+    extraPackages = with pkgs; [ intel-media-driver ];
+  };
+  hardware.uinput.enable = true;
+
+  security.polkit.enable = true;
   security.rtkit.enable = true;
+
   services.pipewire = {
     enable = true;
     alsa.enable = true;
     alsa.support32Bit = true;
     pulse.enable = true;
-    # If you want to use JACK applications, uncomment this
-    # jack.enable = true;
   };
+
+  services.gvfs.enable = true;
+  services.udisks2.enable = true;
 
   users.users.tecemine = {
     isNormalUser = true;
     description = "Tecemine";
-    extraGroups = [ "networkmanager" "wheel" "docker" ];
+    extraGroups = [ "networkmanager" "wheel" "docker" "input" "uinput" "video" "render" ];
     packages = with pkgs; [];
     openssh.authorizedKeys.keyFiles = [
       ./ssh/auth_key
@@ -93,7 +98,63 @@
 
   nixpkgs.config.allowUnfree = true;
 
-  programs.hyprland.enable = true;
+  programs.hyprland = {
+    enable = true;
+    withUWSM = true;
+    package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
+    portalPackage = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland;
+  };
+
+
+  fonts = {
+    packages = with pkgs; [
+      noto-fonts
+      noto-fonts-color-emoji
+      source-han-sans
+      source-han-serif
+      jetbrains-mono
+    ];
+
+    fontconfig = {
+      antialias = true;
+
+      hinting = {
+        enable = true;
+        style = "slight";
+        autohint = false;
+      };
+
+      # 串流画面不要使用 RGB 子像素抗锯齿
+      subpixel.rgba = "none";
+
+      defaultFonts = {
+        sansSerif = [
+          "Noto Sans"
+          "Source Han Sans SC"
+        ];
+        serif = [
+          "Noto Serif"
+          "Source Han Serif SC"
+        ];
+        monospace = [
+          "JetBrains Mono"
+        ];
+        emoji = [
+          "Noto Color Emoji"
+        ];
+      };
+    };
+  };
+
+  environment.sessionVariables.NIXOS_OZONE_WL = "1";
+
+
+  services.sunshine = {
+    enable = true;
+    autoStart = true;
+    capSysAdmin = true;
+    openFirewall = true;
+  };
 
   system.stateVersion = "24.11";
 }

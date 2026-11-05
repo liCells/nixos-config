@@ -1,0 +1,45 @@
+{
+    "layer": "top",
+    "position": "top",
+    "height": 30,
+    "spacing": 6,
+    "modules-left": ["custom/nix", "hyprland/workspaces"],
+    "modules-center": [],
+    "modules-right": ["clock#date", "clock#time"],
+
+    "custom/nix": {
+        "format": "\uF313",
+        "tooltip": false
+    },
+
+    "hyprland/workspaces": {
+        "format": "{id}",
+        "on-click": "activate",
+        "sort-by-number": true,
+        "all-outputs": false,
+        "show-special": false,
+        "persistent-workspaces": {
+            "1": [],
+            "2": [],
+            "3": [],
+            "4": [],
+            "5": [],
+            "6": [],
+            "7": [],
+            "8": [],
+            "9": [],
+            "10": []
+        }
+    },
+
+    "clock#date": {
+        "format": "{:%Y-%m-%d %a}",
+        "tooltip": false
+    },
+
+    "clock#time": {
+        "format": "{:%H:%M}",
+        "tooltip-format": "{:%Y-%m-%d %A %H:%M:%S}",
+        "interval": 10
+    }
+}

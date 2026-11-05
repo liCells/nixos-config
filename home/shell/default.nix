@@ -1,6 +1,5 @@
 { pkgs, ... }: {
   # home.file.".vimrc".source = ./vimrc;
-  # home.file.".config/alacritty/alacritty.toml".source = ./alacritty.toml;
   home.file.".config/kitty/kitty.conf".source = ./kitty.conf;
 
   home.file.".config/nvim" = {
@@ -10,7 +9,6 @@
   };
 
   home.packages = with pkgs; [
-    # alacritty
     traceroute
     bind
     busybox
@@ -43,6 +41,9 @@
     nix-alien
 
     nix-output-monitor
+
+    witr
+    quickemu
   ];
 
   programs.git = {
@@ -61,8 +62,8 @@
     enableCompletion = true;
 
     initExtra = ''
-      if [ -z "$DISPLAY" ] && [ "$(tty)" = "/dev/tty1" ]; then
-        exec Hyprland
+      if [ -z "$WAYLAND_DISPLAY" ] && [ "$(tty)" = "/dev/tty1" ]; then
+        exec uwsm start hyprland-uwsm.desktop
       fi
     '';
 
@@ -77,10 +78,11 @@
       # docker
       dps = "docker ps --format 'table {{.ID}}\t{{.Image}}\t{{.Names}}\t{{.Status}}'";
       dpsa = "docker ps -a --format 'table {{.ID}}\t{{.Image}}\t{{.Names}}\t{{.Status}}'";
+      dc = "docker compose";
       dcu = "docker compose up";
       dcud = "docker compose up -d";
       dcd = "docker compose down";
-      docker-compose = "docker compose";
+      dcr = "docker compose restart";
 
       nix-remove-all = "nix profile list --json | jq -r '.elements | keys[]' | while read -r profile_name; do nix profile remove \"\$profile_name\"; done";
       switch-jdk-8 = "nix profile install nixpkgs#jdk8";
@@ -88,10 +90,13 @@
     };
   };
 
+  programs.fzf = {
+    enable = true;
+    enableBashIntegration = true;
+  };
+
   home.sessionVariables = {
     EDITOR = "nvim";
-    BROWSER = "chrome";
-    TERMINAL = "kitty";
-    WAYLAND_DISPLAY = "wayland-1";
   };
+
 }

@@ -1,34 +1,61 @@
-{ pkgs, ... }: {
-  #wayland.windowManager.hyprland.enable = true; # enable Hyprland
+{ pkgs, lib, inputs, ... }:
 
+{
   home.packages = with pkgs; [
-    kitty
-    wayland
-    #fuzzel
-    rofi
+    alacritty
+    google-chrome
     nautilus
-    awww
-    #nwg-look
+    hyprpolkitagent
 
-    brightnessctl
-    wireplumber
-    libgtop
-    bluez
-    networkmanager
-    dart-sass
-    wl-clipboard
-    upower
+    wayland
     gvfs
+    upower
+
+    # Desktop shell.
+    waybar
+    awww
+    waypaper
     cliphist
+    wl-clipboard
+    fuzzel
 
-    hyprpanel
+    # Helpers used by ~/.local/bin scripts.
+    jq
+    file
+    findutils
 
-    wayvnc
+    nerd-fonts.jetbrains-mono
   ];
 
-  home.file.".config/hypr/hyprland.conf".source = ./hyprland.conf;
+  home.file.".config/hypr" = {
+    source = ./hypr;
+    recursive = true;
+  };
+  home.file.".config/waybar" = {
+    source = ./waybar;
+    recursive = true;
+  };
+  home.file.".config/waypaper/config.ini".source = ./waypaper/config.ini;
+  home.file.".config/fuzzel/fuzzel.ini".source = ./fuzzel.ini;
+  home.file.".config/alacritty/alacritty.toml".source = ./alacritty.toml;
 
-  home.file.".config/rofi/config.rasi".source = ./rofi.rasi;
+  home.file."Pictures/Wallpapers" = {
+    source = ./wallpapers;
+    recursive = true;
+  };
+
+  home.file.".local/bin/wallpaper.sh" = {
+    source = ./scripts/wallpaper.sh;
+    executable = true;
+  };
+  home.file.".local/bin/clipboard.sh" = {
+    source = ./scripts/clipboard.sh;
+    executable = true;
+  };
+  home.file.".local/bin/float-center.sh" = {
+    source = ./scripts/float-center.sh;
+    executable = true;
+  };
 
   home.file.".local/share/icons" = {
     source = ./cursor_theme;
@@ -36,10 +63,13 @@
     executable = true;
   };
 
-  # set cursor size and dpi for 4k monitor
-  #xresources.properties = {
-  #  "Xcursor.size" = 32;
-  #  "Xft.dpi" = 192;
-  #  "Xft.dpi" = 96;
-  #};
+  home.sessionPath = [ "$HOME/.local/bin" ];
+
+  home.sessionVariables = {
+    BROWSER = "google-chrome-stable";
+    TERMINAL = "alacritty";
+    XMODIFIERS = "@im=fcitx";
+    QT_IM_MODULE = "fcitx";
+    SDL_IM_MODULE = "fcitx";
+  };
 }
