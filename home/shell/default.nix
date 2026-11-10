@@ -21,6 +21,13 @@
     wget
     gnumake
 
+    # 通用命令行：agent 的 bash 和日常都直接用，不必每次找 store 路径。
+    # cargo/rustc 留在 nix-shell 里，版本要跟随项目。
+    nodejs
+    pnpm
+    python3
+    sqlite
+
     yazi
     btop
     ctop
