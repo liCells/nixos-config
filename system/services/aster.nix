@@ -6,6 +6,7 @@
 
 let
   aster = pkgs.callPackage ./aster-package.nix { src = inputs.aster; };
+  asterHub = pkgs.callPackage ./aster-hub-package.nix { src = inputs.aster; };
 
   # Same layout the Docker deployment used: the checkout keeps config/, state/, secrets/ and
   # workspace/ beside the source, and every one of them is git-ignored.
@@ -44,6 +45,28 @@ in
             pkgs.coreutils
           ]
         }"
+      ];
+    };
+  };
+
+  systemd.services.aster-hub = {
+    description = "Aster Hub - remote access to Aster instances";
+    wantedBy = [ "multi-user.target" ];
+    after = [ "network-online.target" ];
+    wants = [ "network-online.target" ];
+    serviceConfig = {
+      User = "tecemine";
+      Group = "users";
+      WorkingDirectory = dir;
+      ExecStart = lib.getExe asterHub;
+      Restart = "always";
+      RestartSec = 5;
+      Environment = [
+        "ASTER_HUB_BIND=0.0.0.0:30002"
+        "ASTER_HUB_PASSWORD_FILE=${dir}/secrets/aster_password"
+        "ASTER_HUB_STATE=${dir}/state/hub/nodes.json"
+        "ASTER_HUB_DIST=${asterHub}/share/aster-hub/dist"
+        "HOME=/home/tecemine"
       ];
     };
   };

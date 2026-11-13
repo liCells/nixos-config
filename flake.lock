@@ -36,11 +36,11 @@
     "aster": {
       "flake": false,
       "locked": {
-        "lastModified": 1793871257,
-        "narHash": "sha256-BRvRVKppcAH7bebJy7ha3fJyfUwrPfuDy7UF3eQBvbA=",
+        "lastModified": 1794552655,
+        "narHash": "sha256-r5v8Rif9X/XGbKojyHY2f8lTkq6PX5vnOpPwQiQ4GJg=",
         "ref": "refs/heads/main",
-        "rev": "cece739288fd1cf261e4bf0cec19c0600b190b3d",
-        "revCount": 39,
+        "rev": "e982990f0ba5058f79ee19c381da3b9af3d6979c",
+        "revCount": 124,
         "type": "git",
         "url": "http://10.0.0.10:33000/aster/aster.git"
       },
